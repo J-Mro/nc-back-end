@@ -135,7 +135,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         ];
       });
       const queryStr = format(
-        `INSERT INTO comments (article_id, body, votes, author, created_at) VALUES %L RETURNING *;`,
+        `INSERT INTO comments (article_id, body, votes, author, created_at) VALUES %L;`,
         formattedComments,
       );
       return db.query(queryStr);
