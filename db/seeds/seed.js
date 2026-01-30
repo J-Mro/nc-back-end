@@ -1,5 +1,6 @@
 const db = require("../connection");
 const format = require("pg-format");
+const createLookUpObj = require("../seeds/utils");
 
 const seed = ({ topicData, userData, articleData, commentData }) => {
   return db
@@ -87,7 +88,6 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         `INSERT INTO topics (slug, description, img_url) VALUES %L RETURNING *;`,
         formattedTopics,
       );
-      // console.log(queryStr, " << this is the queryStr");
       return db.query(queryStr);
     })
     .then(() => {
@@ -120,19 +120,19 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     })
     .then((result) => {
       const articles = result.rows;
+      const articlesLookUpObject = createLookUpObj(
+        articles,
+        "title",
+        "article_id",
+      );
       const formattedComments = commentData.map((comment) => {
-        for (const article of articles) {
-          if (article.title === comment.article_title) {
-            comment.article_id = article.article_id;
-            return [
-              comment.article_id,
-              comment.body,
-              comment.votes,
-              comment.author,
-              comment.created_at,
-            ];
-          }
-        }
+        return [
+          articlesLookUpObject[comment.article_title],
+          comment.body,
+          comment.votes,
+          comment.author,
+          comment.created_at,
+        ];
       });
       const queryStr = format(
         `INSERT INTO comments (article_id, body, votes, author, created_at) VALUES %L RETURNING *;`,
