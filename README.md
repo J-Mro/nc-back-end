@@ -1,3 +1,5 @@
 # NC News Seeding
 
-- Instructions for this sprint can be found at https://l2c.northcoders.com/courses/be/seeding-nc-news
+- Create a .env.test file for your test database. Set the value of PGDATABASE in this file to the name of your test database
+
+- Create a .env.development file for your development database. Set the value of PGDATABASE in this file to the name of your development database
