@@ -46,3 +46,17 @@ describe("/api/articles", () => {
       });
   });
 });
+describe("/api/users", () => {
+  test("GET:200 - responds with correct users array", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        for (const user of body) {
+          expect(typeof user.username).toBe("string");
+          expect(typeof user.name).toBe("string");
+          expect(typeof user.avatar_url).toBe("string");
+        }
+      });
+  });
+});
