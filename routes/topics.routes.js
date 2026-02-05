@@ -1,10 +1,9 @@
 const express = require("express");
 const { getAllTopics } = require("../controller/topics.controller");
+const invalidMethodError = require("../errors/invalidMethodError.js");
 const router = express.Router();
 
 router.get("/", getAllTopics);
-router.all("/", (req, res, next) => {
-  res.status(405).send({ msg: "Invalid method" });
-});
+router.all("/", invalidMethodError);
 
 module.exports = router;
