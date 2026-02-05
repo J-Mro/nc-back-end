@@ -40,13 +40,16 @@ describe("/api/topics", () => {
     });
   });
   describe("Invalid Methods", () => {
-    test.only("DELETE: 405 - responds with an error message when passed a valid path with an undefined method", () => {
-      return request(app)
-        .delete("/api/topics")
-        .expect(405)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Invalid method");
-        });
+    test.only("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+      const invalidMethods = ["delete", "post", "patch"];
+      const requests = invalidMethods.map((method) => {
+        return request(app)
+          [method]("/api/topics")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid method");
+          });
+      });
     });
   });
 });
