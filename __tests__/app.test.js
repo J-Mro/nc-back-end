@@ -14,26 +14,40 @@ afterAll(() => {
 });
 
 describe("/api/topics", () => {
-  test("GET:200 - responds with the correct topics array", () => {
-    return request(app)
-      .get("/api/topics")
-      .expect(200)
-      .then(({ body }) => {
-        expect(Array.isArray(body)).toBe(true);
-        for (const topic of body) {
-          expect(typeof topic.slug).toBe("string");
-          expect(typeof topic.description).toBe("string");
-          expect(typeof topic.img_url).toBe("string");
-        }
+  describe("GET:", () => {
+    test("GET:200 - responds with the correct topics array", () => {
+      return request(app)
+        .get("/api/topics")
+        .expect(200)
+        .then(({ body }) => {
+          expect(Array.isArray(body)).toBe(true);
+          for (const topic of body) {
+            expect(typeof topic.slug).toBe("string");
+            expect(typeof topic.description).toBe("string");
+            expect(typeof topic.img_url).toBe("string");
+          }
+        });
+    });
+    describe("Error handling", () => {
+      test("GET:404 - responds with an error message when passed an invalid path", () => {
+        return request(app)
+          .get("/api/topic")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Path not found");
+          });
       });
+    });
   });
-  test("GET:404 - responds with an error message when passed an invalid path", () => {
-    return request(app)
-      .get("/api/topic")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Path not found");
-      });
+  describe("Invalid Methods", () => {
+    test.only("DELETE: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+      return request(app)
+        .delete("/api/topics")
+        .expect(405)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid method");
+        });
+    });
   });
 });
 describe("/api/articles", () => {
