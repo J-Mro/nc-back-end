@@ -7,13 +7,13 @@ exports.getAllArticles = (req, res) => {
     res.status(200).send(articles);
   });
 };
-exports.getArticleById = (req, res) => {
+exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   getArticleByIdService(article_id)
     .then((articles) => {
       res.status(200).send(articles);
     })
     .catch((err) => {
-      res.status(404).send({ msg: err.message });
+      next(err);
     });
 };
