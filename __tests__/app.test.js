@@ -44,7 +44,7 @@ describe("/api/topics", () => {
       const invalidMethods = ["delete", "post", "patch"];
       const requests = invalidMethods.map((method) => {
         return request(app)
-          [method]("/api/topics")
+          [method]("/api/articles")
           .expect(405)
           .then(({ body }) => {
             expect(body.msg).toBe("Invalid method");
@@ -69,6 +69,19 @@ describe("/api/articles", () => {
           expect(typeof article.article_img_url).toBe("string");
         }
       });
+  });
+  describe("Invalid Methods", () => {
+    test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+      const invalidMethods = ["delete", "post", "patch"];
+      const requests = invalidMethods.map((method) => {
+        return request(app)
+          [method]("/api/articles")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid method");
+          });
+      });
+    });
   });
   describe("/api/articles/:article_id", () => {
     test("GET:200 - responds with the correct article with the correct :article_id", () => {
