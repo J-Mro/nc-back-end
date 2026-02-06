@@ -106,7 +106,7 @@ describe("/api/articles", () => {
         .get("/api/articles/50")
         .expect(404)
         .then(({ body }) => {
-          expect(body.msg).toBe("Resource not found");
+          expect(body.msg).toBe("Article ID not found");
         });
     });
     describe("/api/articles/:article_id/comments", () => {
@@ -136,6 +136,16 @@ describe("/api/articles", () => {
               descending: true,
             });
           });
+      });
+      describe("Error Handling", () => {
+        test("GET: 404 - responds with an error message when the article_id does not exist", () => {
+          return request(app)
+            .get("/api/articles/500/comments")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Article ID not found");
+            });
+        });
       });
     });
   });
