@@ -110,16 +110,42 @@ describe("/api/articles", () => {
   });
 });
 describe("/api/users", () => {
-  test("GET:200 - responds with correct users array", () => {
-    return request(app)
-      .get("/api/users")
-      .expect(200)
-      .then(({ body }) => {
-        for (const user of body) {
-          expect(typeof user.username).toBe("string");
-          expect(typeof user.name).toBe("string");
-          expect(typeof user.avatar_url).toBe("string");
-        }
+  describe("GET", () => {
+    test("GET:200 - responds with correct users array", () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({ body }) => {
+          for (const user of body) {
+            expect(typeof user.username).toBe("string");
+            expect(typeof user.name).toBe("string");
+            expect(typeof user.avatar_url).toBe("string");
+          }
+        });
+    });
+  });
+  describe("Error handling", () => {
+    test("GET:404 - responds with an error message when passed an invalid path", () => {
+      return request(app)
+        .get("/api/use")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Path not found");
+        });
+    });
+  });
+  describe("Invalid Methods", () => {
+    test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+      const invalidMethods = ["delete", "post", "patch"];
+      const requests = invalidMethods.map((method) => {
+        return request(app)
+          [method]("/api/users")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid method");
+          });
       });
+      return Promise.all(requests);
+    });
   });
 });
