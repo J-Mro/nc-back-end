@@ -50,6 +50,7 @@ describe("/api/topics", () => {
             expect(body.msg).toBe("Invalid method");
           });
       });
+      return Promise.all(requests);
     });
   });
 });
@@ -81,6 +82,7 @@ describe("/api/articles", () => {
             expect(body.msg).toBe("Invalid method");
           });
       });
+      return Promise.all(requests);
     });
   });
   describe("/api/articles/:article_id", () => {
