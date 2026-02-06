@@ -40,7 +40,7 @@ describe("/api/topics", () => {
     });
   });
   describe("Invalid Methods", () => {
-    test.only("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+    test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
       const invalidMethods = ["delete", "post", "patch"];
       const requests = invalidMethods.map((method) => {
         return request(app)
@@ -76,7 +76,7 @@ describe("/api/articles", () => {
         .get("/api/articles/2")
         .expect(200)
         .then(({ body }) => {
-          const article = body[0];
+          const article = body;
           expect(article.article_id).toBe(2);
           expect(typeof article.author).toBe("string");
           expect(typeof article.body).toBe("string");
@@ -86,14 +86,12 @@ describe("/api/articles", () => {
           expect(typeof article.article_img_url).toBe("string");
         });
     });
-    test("GET:404 - responds with an error message 'invalid article_id' when the url includes an article_id that does not exist", () => {
+    test("GET:404 - responds with an error message 'Article ID not found' when the url includes an article_id that does not exist", () => {
       return request(app)
         .get("/api/articles/50")
         .expect(404)
         .then(({ body }) => {
-          console.log(body);
-          const expected = { message: "Invalid article_id" };
-          expect(body).toEqual(expected);
+          expect(body.msg).toBe("Article ID not found");
         });
     });
   });
