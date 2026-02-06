@@ -115,7 +115,6 @@ describe("/api/articles", () => {
           .get("/api/articles/3/comments")
           .expect(200)
           .then(({ body }) => {
-            console.log(body);
             expect(body).toBeObject();
             expect(body.comments).toBeArray();
             for (const comment of body.comments) {
@@ -126,6 +125,16 @@ describe("/api/articles", () => {
               expect(comment.body).toBeString();
               expect(comment.article_id).toBeNumber();
             }
+          });
+      });
+      test("GET:200 - responds with an object with a key of comments and a value of an array of all comment objects for the given id with the most recent comments first", () => {
+        return request(app)
+          .get("/api/articles/3/comments")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.comments).toBeSortedBy("created_at", {
+              descending: true,
+            });
           });
       });
     });
