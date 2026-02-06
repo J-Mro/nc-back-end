@@ -1,6 +1,7 @@
 const {
   getAllArticles: getAllArticlesService,
   getArticleById: getArticleByIdService,
+  getCommentsByArticleId: getCommentsByArticleIdService,
 } = require("../service/articles.service");
 exports.getAllArticles = (req, res) => {
   getAllArticlesService().then((articles) => {
@@ -16,4 +17,10 @@ exports.getArticleById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+exports.getCommentsByArticleId = (req, res) => {
+  const { article_id } = req.params;
+  getCommentsByArticleIdService(article_id).then((comments) => {
+    res.status(200).send(comments);
+  });
 };

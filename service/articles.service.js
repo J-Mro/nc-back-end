@@ -1,6 +1,7 @@
 const {
   fetchAllArticles,
   fetchArticleById,
+  fetchCommentsByArticleId,
 } = require("../models/articles.model");
 const NotFoundError = require("../errors/NotFoundError");
 exports.getAllArticles = () => {
@@ -13,5 +14,10 @@ exports.getArticleById = (article_id) => {
     } else {
       return article;
     }
+  });
+};
+exports.getCommentsByArticleId = (article_id) => {
+  return fetchCommentsByArticleId(article_id).then((comments) => {
+    return { comments };
   });
 };
