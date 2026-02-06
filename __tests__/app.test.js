@@ -109,6 +109,26 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Resource not found");
         });
     });
+    describe("/api/articles/:article_id/comments", () => {
+      test("GET:200 - responds with an object with a key of comments and the value of an array of comments for the given article id", () => {
+        return request(app)
+          .get("/api/articles/3/comments")
+          .expect(200)
+          .then(({ body }) => {
+            console.log(body);
+            expect(body).toBeObject();
+            expect(body.comments).toBeArray();
+            for (const comment of body.comments) {
+              expect(comment.comment_id).toBeNumber();
+              expect(comment.votes).toBeNumber();
+              expect(comment.created_at).toBeString();
+              expect(comment.author).toBeString();
+              expect(comment.body).toBeString();
+              expect(comment.article_id).toBeNumber();
+            }
+          });
+      });
+    });
   });
 });
 describe("/api/users", () => {
