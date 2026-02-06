@@ -17,7 +17,7 @@ app.all("/*path", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (err instanceof NotFoundError) {
-    res.status(404).send({ msg: "Resource not found" });
+    res.status(404).send({ msg: err.message });
   }
 });
 
