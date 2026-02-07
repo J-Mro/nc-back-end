@@ -137,6 +137,14 @@ describe("/api/articles", () => {
             });
           });
       });
+      test("GET: 200 - responds with a user-friendly message when a valid article id is passed that has no associated comments", () => {
+        return request(app)
+          .get("/api/articles/13/comments")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.comments).toBe("No comments yet!");
+          });
+      });
       describe("Error Handling", () => {
         test("GET: 404 - responds with an error message when the article_id does not exist", () => {
           return request(app)
