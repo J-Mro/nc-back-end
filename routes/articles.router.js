@@ -11,5 +11,6 @@ router.get("/", getAllArticles);
 router.get("/:article_id", getArticleById);
 router.get("/:article_id/comments", getCommentsByArticleId);
 router.all("/", invalidMethodHandler);
+router.all("/:article_id", invalidMethodHandler);
 router.all("/:article_id/comments", invalidMethodHandler);
 module.exports = router;
