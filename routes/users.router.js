@@ -3,6 +3,5 @@ const router = express.Router();
 const { getAllUsers } = require("../controller/users.controller");
 const invalidMethodHandler = require("../errors/invalidMethodHandler");
 
-router.get("/", getAllUsers);
-router.all("/", invalidMethodHandler);
+router.route("/").get(getAllUsers).all(invalidMethodHandler);
 module.exports = router;
