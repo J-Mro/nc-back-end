@@ -109,6 +109,17 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article ID not found");
         });
     });
+    test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+      const invalidMethods = ["delete", "post", "patch"];
+      const requests = invalidMethods.map((method) => {
+        return request(app)
+          [method]("/api/articles/2")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid method");
+          });
+      });
+    });
     describe("/api/articles/:article_id/comments", () => {
       test("GET:200 - responds with an object with a key of comments and the value of an array of comments for the given article id", () => {
         return request(app)
