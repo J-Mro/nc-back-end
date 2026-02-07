@@ -7,10 +7,10 @@ const {
 } = require("../controller/articles.controller");
 const invalidMethodHandler = require("../errors/invalidMethodHandler");
 
-router.get("/", getAllArticles);
-router.get("/:article_id", getArticleById);
-router.get("/:article_id/comments", getCommentsByArticleId);
-router.all("/", invalidMethodHandler);
-router.all("/:article_id", invalidMethodHandler);
-router.all("/:article_id/comments", invalidMethodHandler);
+router.route("/").get(getAllArticles).all(invalidMethodHandler);
+router.route("/:article_id").get(getArticleById).all(invalidMethodHandler);
+router
+  .route("/:article_id/comments")
+  .get(getCommentsByArticleId)
+  .all(invalidMethodHandler);
 module.exports = router;
