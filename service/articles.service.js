@@ -21,7 +21,8 @@ exports.getCommentsByArticleId = (article_id) => {
   return checkArticleIdExists(article_id).then((val) => {
     if (val !== false) {
       return fetchCommentsByArticleId(article_id).then((comments) => {
-        return { comments };
+        if (comments.length > 0) return { comments };
+        else return { comments: "No comments yet!" };
       });
     } else {
       throw new NotFoundError("Article ID not found");
