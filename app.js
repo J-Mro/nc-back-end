@@ -4,6 +4,7 @@ const topicsRouter = require("./routes/topics.routes");
 const articlesRouter = require("./routes/articles.router");
 const usersRouter = require("./routes/users.router");
 const NotFoundError = require("./errors/NotFoundError");
+const BadRequestError = require("./errors/BadRequestError");
 
 app.use(express.json());
 
@@ -18,6 +19,9 @@ app.all("/*path", (req, res, next) => {
 app.use((err, req, res, next) => {
   if (err instanceof NotFoundError) {
     res.status(404).send({ msg: err.message });
+  }
+  if (err instanceof BadRequestError) {
+    res.status(400).send({ msg: err.message });
   }
 });
 
