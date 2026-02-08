@@ -38,6 +38,13 @@ exports.checkArticleIdExists = (article_id) => {
       return rows.length === 1;
     });
 };
+exports.checkUserExists = (username) => {
+  return db
+    .query(`SELECT * FROM users WHERE username = $1`, [username])
+    .then(({ rows }) => {
+      return rows.length === 1;
+    });
+};
 exports.storeCommentFromUserName = (article_id, comment) => {
   const { username: author, body } = comment;
   return db
