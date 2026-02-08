@@ -162,13 +162,23 @@ describe("/api/articles", () => {
           .send({ username: "butter_bridge", body: "test" })
           .expect(201)
           .then(({ body }) => {
-            console.log(body);
             expect(body.comment_id).toBeNumber();
             expect(body.article_id).toBeNumber();
             expect(body.body).toBeString();
             expect(body.votes).toBeNumber();
             expect(body.author).toBeString();
             expect(body.created_at).toBeString();
+          });
+      });
+      test("POST: 201 - responds with the correct parameters from the request", () => {
+        return request(app)
+          .post("/api/articles/12/comments")
+          .send({ username: "butter_bridge", body: "test" })
+          .expect(201)
+          .then(({ body }) => {
+            expect(body.article_id).toBe(12);
+            expect(body.body).toBe("test");
+            expect(body.author).toBe("butter_bridge");
           });
       });
       describe("Error Handling", () => {
