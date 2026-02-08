@@ -46,7 +46,6 @@ exports.storeCommentFromUserName = (article_id, comment) => {
       [article_id, body, author],
     )
     .then(({ rows }) => {
-      // get the comment posted back
       return rows[0];
     });
 };
