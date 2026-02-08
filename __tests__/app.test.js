@@ -156,6 +156,21 @@ describe("/api/articles", () => {
             expect(body.comments).toBe("No comments yet!");
           });
       });
+      test("POST:201 - responds with a comment sent with the request", () => {
+        return request(app)
+          .post("/api/articles/12/comments")
+          .send({ username: "butter_bridge", body: "test" })
+          .expect(201)
+          .then(({ body }) => {
+            console.log(body);
+            expect(body.comment_id).toBeNumber();
+            expect(body.article_id).toBeNumber();
+            expect(body.body).toBeString();
+            expect(body.votes).toBeNumber();
+            expect(body.author).toBeString();
+            expect(body.created_at).toBeString();
+          });
+      });
       describe("Error Handling", () => {
         test("GET: 404 - responds with an error message when the article_id does not exist", () => {
           return request(app)
@@ -166,7 +181,7 @@ describe("/api/articles", () => {
             });
         });
         test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
-          const invalidMethods = ["delete", "post", "patch"];
+          const invalidMethods = ["delete", "patch"];
           const requests = invalidMethods.map((method) => {
             return request(app)
               [method]("/api/articles/2/comments")
