@@ -7,6 +7,7 @@ const {
   storeCommentFromUserName,
 } = require("../models/articles.model");
 const NotFoundError = require("../errors/NotFoundError");
+const BadRequestError = require("../errors/BadRequestError");
 exports.getAllArticles = () => {
   return fetchAllArticles();
 };
@@ -32,21 +33,25 @@ exports.getCommentsByArticleId = (article_id) => {
   });
 };
 exports.postCommentFromUserName = (article_id, comment) => {
-  return checkArticleIdExists(article_id).then((result) => {
-    if (result !== false) {
-      return checkUserExists(comment.username).then((result) => {
-        if (result !== false) {
-          return storeCommentFromUserName(article_id, comment).then(
-            (comment) => {
-              return comment;
-            },
-          );
-        } else {
-          throw new NotFoundError("User not found");
-        }
-      });
-    } else {
-      throw new NotFoundError("Article ID not found");
-    }
-  });
+  if (comment.body !== "") {
+    return checkArticleIdExists(article_id).then((result) => {
+      if (result !== false) {
+        return checkUserExists(comment.username).then((result) => {
+          if (result !== false) {
+            return storeCommentFromUserName(article_id, comment).then(
+              (comment) => {
+                return comment;
+              },
+            );
+          } else {
+            throw new NotFoundError("User not found");
+          }
+        });
+      } else {
+        throw new NotFoundError("Article ID not found");
+      }
+    });
+  } else {
+    throw new BadRequestError("Please enter your comment!");
+  }
 };
