@@ -19,8 +19,8 @@ exports.getArticleById = (article_id) => {
   });
 };
 exports.getCommentsByArticleId = (article_id) => {
-  return checkArticleIdExists(article_id).then((val) => {
-    if (val !== false) {
+  return checkArticleIdExists(article_id).then((result) => {
+    if (result !== false) {
       return fetchCommentsByArticleId(article_id).then((comments) => {
         if (comments.length > 0) return { comments };
         else return { comments: "No comments yet!" };
