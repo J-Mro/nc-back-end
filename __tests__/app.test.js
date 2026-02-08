@@ -199,6 +199,15 @@ describe("/api/articles", () => {
               expect(body.msg).toBe("Article ID not found");
             });
         });
+        test("POST: 404 - responds with an error message when the request body contains a user that does not exist", () => {
+          return request(app)
+            .post("/api/articles/12/comments")
+            .send({ username: "butter", body: "test" })
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).toBe("User not found");
+            });
+        });
         test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
           const invalidMethods = ["delete", "patch"];
           const requests = invalidMethods.map((method) => {
