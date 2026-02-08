@@ -208,6 +208,15 @@ describe("/api/articles", () => {
               expect(body.msg).toBe("User not found");
             });
         });
+        test("POST: 400 - responds with an error message when the request body contains a comment body that is an empty string", () => {
+          return request(app)
+            .post("/api/articles/12/comments")
+            .send({ username: "butter_bridge", body: "" })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Please enter your comment!");
+            });
+        });
         test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
           const invalidMethods = ["delete", "patch"];
           const requests = invalidMethods.map((method) => {
