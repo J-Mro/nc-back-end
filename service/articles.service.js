@@ -33,7 +33,7 @@ exports.getCommentsByArticleId = (article_id) => {
   });
 };
 exports.postCommentFromUserName = (article_id, comment) => {
-  if (comment.body !== "") {
+  if (comment.body.trim() !== "") {
     return checkArticleIdExists(article_id).then((result) => {
       if (result !== false) {
         return checkUserExists(comment.username).then((result) => {
