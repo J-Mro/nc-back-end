@@ -38,3 +38,15 @@ exports.checkArticleIdExists = (article_id) => {
       return rows.length === 1;
     });
 };
+exports.storeCommentFromUserName = (article_id, comment) => {
+  const { username: author, body } = comment;
+  return db
+    .query(
+      `INSERT INTO comments (article_id, body, author) VALUES ($1, $2, $3) RETURNING *`,
+      [article_id, body, author],
+    )
+    .then(({ rows }) => {
+      // get the comment posted back
+      return rows[0];
+    });
+};

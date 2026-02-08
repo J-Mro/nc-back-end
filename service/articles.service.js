@@ -3,6 +3,7 @@ const {
   fetchArticleById,
   fetchCommentsByArticleId,
   checkArticleIdExists,
+  storeCommentFromUserName,
 } = require("../models/articles.model");
 const NotFoundError = require("../errors/NotFoundError");
 exports.getAllArticles = () => {
@@ -28,4 +29,7 @@ exports.getCommentsByArticleId = (article_id) => {
       throw new NotFoundError("Article ID not found");
     }
   });
+};
+exports.postCommentFromUserName = (article_id, comment) => {
+  return storeCommentFromUserName(article_id, comment);
 };
