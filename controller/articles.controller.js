@@ -29,12 +29,16 @@ exports.getCommentsByArticleId = (req, res, next) => {
       next(err);
     });
 };
-exports.postCommentFromUserName = (req, res) => {
+exports.postCommentFromUserName = (req, res, next) => {
   // comment to post available on req.body
   const comment = req.body;
   // article id available on req.params
   const { article_id } = req.params;
-  postCommentFromUserNameService(article_id, comment).then((comment) => {
-    res.status(201).send(comment);
-  });
+  postCommentFromUserNameService(article_id, comment)
+    .then((comment) => {
+      res.status(201).send(comment);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };

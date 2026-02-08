@@ -31,5 +31,13 @@ exports.getCommentsByArticleId = (article_id) => {
   });
 };
 exports.postCommentFromUserName = (article_id, comment) => {
-  return storeCommentFromUserName(article_id, comment);
+  return checkArticleIdExists(article_id).then((result) => {
+    if (result !== false) {
+      return storeCommentFromUserName(article_id, comment).then((comment) => {
+        return comment;
+      });
+    } else {
+      throw new NotFoundError("Article ID not found");
+    }
+  });
 };
