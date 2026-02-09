@@ -43,8 +43,8 @@ exports.postCommentFromUserName = (req, res, next) => {
 };
 exports.patchArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  const { inc_votes } = req.body;
-  patchArticleByIdService(article_id, inc_votes)
+  const incVotesObject = req.body;
+  patchArticleByIdService(article_id, incVotesObject)
     .then((article) => {
       res.status(200).send(article);
     })
