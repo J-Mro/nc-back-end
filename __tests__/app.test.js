@@ -115,9 +115,38 @@ describe("/api/articles", () => {
         });
       });
     });
+    describe("PATCH", () => {
+      test("PATCH: 200 - responds with an article when passed a valid article_id into the path", () => {
+        return request(app)
+          .patch("/api/articles/2")
+          .send({ inc_votes: 1 })
+          .expect(200)
+          .then(({ body }) => {
+            const article = body;
+            expect(article.article_id).toBe(2);
+            expect(typeof article.author).toBe("string");
+            expect(typeof article.body).toBe("string");
+            expect(typeof article.topic).toBe("string");
+            expect(typeof article.created_at).toBe("string");
+            expect(typeof article.votes).toBe("number");
+            expect(typeof article.article_img_url).toBe("string");
+          });
+      });
+      test("Patch:200 - responds with the updated article votes value for a given article id", () => {
+        return request(app)
+          .patch("/api/articles/2")
+          .send({ inc_votes: 1 })
+          .expect(200)
+          .then(({ body }) => {
+            const article = body;
+            expect(article.article_id).toBe(2);
+            expect(article.votes).toBe(1);
+          });
+      });
+    });
     describe("Invalid Methods", () => {
       test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
-        const invalidMethods = ["delete", "post", "patch"];
+        const invalidMethods = ["delete", "post"];
         const requests = invalidMethods.map((method) => {
           return request(app)
             [method]("/api/articles/2")

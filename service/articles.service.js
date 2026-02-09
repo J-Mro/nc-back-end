@@ -5,6 +5,7 @@ const {
   checkArticleIdExists,
   checkUserExists,
   storeCommentFromUserName,
+  updateVotesByArticleId,
 } = require("../models/articles.model");
 const NotFoundError = require("../errors/NotFoundError");
 const BadRequestError = require("../errors/BadRequestError");
@@ -54,4 +55,9 @@ exports.postCommentFromUserName = (article_id, comment) => {
   } else {
     throw new BadRequestError("Please enter your comment!");
   }
+};
+exports.patchArticleById = (article_id, inc_votes) => {
+  return updateVotesByArticleId(article_id, inc_votes).then((article) => {
+    return article;
+  });
 };

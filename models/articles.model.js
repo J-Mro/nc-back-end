@@ -56,3 +56,13 @@ exports.storeCommentFromUserName = (article_id, comment) => {
       return rows[0];
     });
 };
+exports.updateVotesByArticleId = (article_id, inc_votes) => {
+  return db
+    .query(
+      `UPDATE articles SET votes = votes + ${inc_votes} WHERE article_id = $1 RETURNING *;`,
+      [article_id],
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
