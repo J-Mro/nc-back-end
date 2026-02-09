@@ -153,6 +153,24 @@ describe("/api/articles", () => {
               expect(body.msg).toBe("Article ID not found");
             });
         });
+        test("PATCH:400 - responds with an error message when the request body is an empty object", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({})
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Request body is empty");
+            });
+        });
+        test("PATCH:400 - responds with an error message when the request body is an object that has an invalid key with a numeric value", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({ inc_vots: 1 })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Request body is empty");
+            });
+        });
       });
     });
     describe("Invalid Methods", () => {
