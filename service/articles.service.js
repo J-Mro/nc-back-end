@@ -63,17 +63,21 @@ exports.patchArticleById = (article_id, incVotesObject) => {
       if (inc_votes !== undefined) {
         if (!isNaN(inc_votes)) {
           if (inc_votes % 1 === 0) {
-            return checkArticleIdExists(article_id).then((result) => {
-              if (result !== false) {
-                return updateVotesByArticleId(article_id, inc_votes).then(
-                  (article) => {
-                    return article;
-                  },
-                );
-              } else {
-                throw new NotFoundError("Article ID not found");
-              }
-            });
+            if (inc_votes !== 0) {
+              return checkArticleIdExists(article_id).then((result) => {
+                if (result !== false) {
+                  return updateVotesByArticleId(article_id, inc_votes).then(
+                    (article) => {
+                      return article;
+                    },
+                  );
+                } else {
+                  throw new NotFoundError("Article ID not found");
+                }
+              });
+            } else {
+              throw new BadRequestError("Value must be non-zero");
+            }
           } else {
             throw new BadRequestError("Increase votes must be an integer");
           }
