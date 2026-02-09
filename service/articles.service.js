@@ -56,22 +56,39 @@ exports.postCommentFromUserName = (article_id, comment) => {
     throw new BadRequestError("Please enter your comment!");
   }
 };
-exports.patchArticleById = (article_id, inc_votes) => {
-  if (inc_votes !== undefined) {
-    if (!isNaN(inc_votes)) {
-      return checkArticleIdExists(article_id).then((result) => {
-        if (result !== false) {
-          return updateVotesByArticleId(article_id, inc_votes).then(
-            (article) => {
-              return article;
-            },
-          );
+exports.patchArticleById = (article_id, incVotesObject) => {
+  if (Object.keys(incVotesObject).length !== 0) {
+    if (Object.keys(incVotesObject).length === 1) {
+      const { inc_votes } = incVotesObject;
+      if (inc_votes !== undefined) {
+        if (!isNaN(inc_votes)) {
+          if (inc_votes % 1 === 0) {
+            return checkArticleIdExists(article_id).then((result) => {
+              if (result !== false) {
+                return updateVotesByArticleId(article_id, inc_votes).then(
+                  (article) => {
+                    return article;
+                  },
+                );
+              } else {
+                throw new NotFoundError("Article ID not found");
+              }
+            });
+          } else {
+            throw new BadRequestError("Increase votes must be an integer");
+          }
         } else {
-          throw new NotFoundError("Article ID not found");
+          throw new BadRequestError("Increase votes must be a number");
         }
-      });
+      } else {
+        throw new BadRequestError(
+          "Request body must have a valid key and value",
+        );
+      }
     } else {
-      throw new BadRequestError("Increase votes must be a number");
+      throw new BadRequestError(
+        "Request body must be an object with a single key-value pair",
+      );
     }
   } else {
     throw new BadRequestError("Request body is empty");
