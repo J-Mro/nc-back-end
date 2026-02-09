@@ -202,6 +202,15 @@ describe("/api/articles", () => {
               );
             });
         });
+        test("PATCH:400 - responds with an error message when the request body is an object that has a valid property with a value of zero", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({ inc_votes: 0 })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Value must be non-zero");
+            });
+        });
       });
     });
     describe("Invalid Methods", () => {
