@@ -180,6 +180,15 @@ describe("/api/articles", () => {
               expect(body.msg).toBe("Increase votes must be a number");
             });
         });
+        test("PATCH:400 - responds with an error message when the request body is an object that has a valid key with a decimal value", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({ inc_votes: 1.1 })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Increase votes must be an integer");
+            });
+        });
       });
     });
     describe("Invalid Methods", () => {
