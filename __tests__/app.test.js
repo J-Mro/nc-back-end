@@ -132,7 +132,7 @@ describe("/api/articles", () => {
             expect(typeof article.article_img_url).toBe("string");
           });
       });
-      test("Patch:200 - responds with the updated article votes value for a given article id", () => {
+      test("PATCH:200 - responds with the updated article votes value for a given article id", () => {
         return request(app)
           .patch("/api/articles/2")
           .send({ inc_votes: 1 })
@@ -142,6 +142,17 @@ describe("/api/articles", () => {
             expect(article.article_id).toBe(2);
             expect(article.votes).toBe(1);
           });
+      });
+      describe("Error Handling", () => {
+        test("PATCH:404 - responds with an error message when the article_id does not exist", () => {
+          return request(app)
+            .patch("/api/articles/50")
+            .send({ inc_votes: 1 })
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Article ID not found");
+            });
+        });
       });
     });
     describe("Invalid Methods", () => {
