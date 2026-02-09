@@ -168,7 +168,9 @@ describe("/api/articles", () => {
             .send({ inc_vots: 1 })
             .expect(400)
             .then(({ body }) => {
-              expect(body.msg).toBe("Request body is empty");
+              expect(body.msg).toBe(
+                "Request body must have a valid key and value",
+              );
             });
         });
         test("PATCH:400 - responds with an error message when the request body is an object that has a valid key with a string value", () => {
@@ -187,6 +189,17 @@ describe("/api/articles", () => {
             .expect(400)
             .then(({ body }) => {
               expect(body.msg).toBe("Increase votes must be an integer");
+            });
+        });
+        test("PATCH:400 - responds with an error message when the request body is an object that has a valid property but additional keys", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({ inc_votes: 1, hello: 2 })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe(
+                "Request body must be an object with a single key-value pair",
+              );
             });
         });
       });
