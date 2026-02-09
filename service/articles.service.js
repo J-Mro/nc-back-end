@@ -57,13 +57,23 @@ exports.postCommentFromUserName = (article_id, comment) => {
   }
 };
 exports.patchArticleById = (article_id, inc_votes) => {
-  return checkArticleIdExists(article_id).then((result) => {
-    if (result !== false) {
-      return updateVotesByArticleId(article_id, inc_votes).then((article) => {
-        return article;
+  if (inc_votes !== undefined) {
+    if (!isNaN(inc_votes)) {
+      return checkArticleIdExists(article_id).then((result) => {
+        if (result !== false) {
+          return updateVotesByArticleId(article_id, inc_votes).then(
+            (article) => {
+              return article;
+            },
+          );
+        } else {
+          throw new NotFoundError("Article ID not found");
+        }
       });
     } else {
-      throw new NotFoundError("Article ID not found");
+      throw new BadRequestError("Increase votes must be a number");
     }
-  });
+  } else {
+    throw new BadRequestError("Request body is empty");
+  }
 };
