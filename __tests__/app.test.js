@@ -397,17 +397,55 @@ describe("/api/users", () => {
   });
 });
 describe("/api/comments", () => {
-  test("DELETE:204 - responds with a 204 sendStatus when used on a valid path", () => {
-    return request(app).delete("/api/comments/1").expect(204);
-  });
-  describe("Error Handling", () => {
-    test("DELETE:404 - responds with an error message when passed a non-existent comment_id", () => {
-      return request(app)
-        .delete("/api/comments/50")
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Comment not found");
+  describe("/api/comments/:comment_id", () => {
+    describe("DELETE", () => {
+      test("DELETE:204 - responds with a 204 sendStatus when used on a valid path", () => {
+        return request(app).delete("/api/comments/1").expect(204);
+      });
+      describe("Error Handling", () => {
+        test("DELETE:400 - responds with an error message when passed an invalid ID", () => {
+          return request(app)
+            .delete("/api/comments/fifty")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Invalid ID");
+            });
         });
+        test("DELETE:404 - responds with an error message when passed a non-existent comment_id", () => {
+          return request(app)
+            .delete("/api/comments/50")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Comment not found");
+            });
+        });
+        test("DELETE:404 - responds with a 404 when used on a valid path for a record that has already been deleted", () => {
+          return request(app)
+            .delete("/api/comments/1")
+            .expect(204)
+            .then(() => {
+              return request(app)
+                .delete("/api/comments/1")
+                .expect(404)
+                .then(({ body }) => {
+                  expect(body.msg).toBe("Comment not found");
+                });
+            });
+        });
+      });
+    });
+    describe("Invalid Methods", () => {
+      test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
+        const invalidMethods = ["get", "post"];
+        const requests = invalidMethods.map((method) => {
+          return request(app)
+            [method]("/api/comments/2")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Invalid method");
+            });
+        });
+      });
     });
   });
 });
