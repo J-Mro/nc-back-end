@@ -43,10 +43,14 @@ exports.postCommentFromUserName = (req, res, next) => {
       next(err);
     });
 };
-exports.patchArticleById = (req, res) => {
+exports.patchArticleById = (req, res, next) => {
   const { article_id } = req.params;
   const { inc_votes } = req.body;
-  patchArticleByIdService(article_id, inc_votes).then((article) => {
-    res.status(200).send(article);
-  });
+  patchArticleByIdService(article_id, inc_votes)
+    .then((article) => {
+      res.status(200).send(article);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
