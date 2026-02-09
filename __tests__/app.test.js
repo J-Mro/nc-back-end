@@ -396,3 +396,18 @@ describe("/api/users", () => {
     });
   });
 });
+describe("/api/comments", () => {
+  test("DELETE:204 - responds with a 204 sendStatus when used on a valid path", () => {
+    return request(app).delete("/api/comments/1").expect(204);
+  });
+  describe("Error Handling", () => {
+    test("DELETE:404 - responds with an error message when passed a non-existent comment_id", () => {
+      return request(app)
+        .delete("/api/comments/50")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Comment not found");
+        });
+    });
+  });
+});
