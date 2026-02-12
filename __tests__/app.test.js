@@ -114,6 +114,14 @@ describe("/api/articles", () => {
           expect(body).toBeSortedBy("created_at"); // default order is ascending
         });
     });
+    test("GET:200 - responds with an array of articles in a given order sorted by a given column", () => {
+      return request(app)
+        .get("/api/articles?sort_by=votes&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeSortedBy("votes"); // default order is ascending
+        });
+    });
   });
   describe("Invalid Methods", () => {
     test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
