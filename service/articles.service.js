@@ -9,8 +9,22 @@ const {
 } = require("../models/articles.model");
 const NotFoundError = require("../errors/NotFoundError");
 const BadRequestError = require("../errors/BadRequestError");
-exports.getAllArticles = () => {
-  return fetchAllArticles();
+exports.getAllArticles = (sort_by, order) => {
+  // return checkColumnExists(sort_by, order).then((rows) => {
+  //   if (rows[0][sort_by] !== undefined && rows[0][sort_by] !== undefined) {
+  //   } else {
+  //     // throw new NotFoundError("This column name does not exist");
+  //   }
+  // });
+  const ascCheck = /^asc$/i;
+  const descCheck = /^desc$/i;
+
+  if (ascCheck.test(order)) {
+    return fetchAllArticles(sort_by, order);
+  }
+  if (descCheck.test(order)) {
+    return fetchAllArticles(sort_by, order);
+  }
 };
 exports.getArticleById = (article_id) => {
   return fetchArticleById(article_id).then((article) => {
