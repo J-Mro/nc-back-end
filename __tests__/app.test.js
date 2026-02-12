@@ -72,6 +72,48 @@ describe("/api/articles", () => {
           }
         });
     });
+    test("GET:200 - responds with an array of articles with the correct data types", () => {
+      return request(app)
+        .get("/api/articles?sort_by=created_at")
+        .expect(200)
+        .then(({ body }) => {
+          for (const article of body) {
+            expect(article.article_id).toBeNumber();
+            expect(article.title).toBeString();
+            expect(article.topic).toBeString();
+            expect(article.author).toBeString();
+            expect(article.created_at).toBeString();
+            expect(article.votes).toBeNumber();
+            expect(article.article_img_url).toBeString();
+          }
+        });
+    });
+    test("GET:200 - responds with an array of articles with a default sort by created_at", () => {
+      return request(app)
+        .get("/api/articles?sort_by=created_at")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeSortedBy("created_at", {
+            descending: true,
+          });
+        });
+    });
+    test("GET:200 - responds with an array of articles sorted by a given column", () => {
+      return request(app)
+        .get("/api/articles?sort_by=votes")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeSortedBy("votes", { descending: true });
+        });
+    });
+    test("GET:200 - responds with an array of articles in ascending order of created_by", () => {
+      return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeSortedBy("created_at"); // default order is ascending
+        });
+    });
   });
   describe("Invalid Methods", () => {
     test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
