@@ -136,6 +136,22 @@ describe("/api/articles", () => {
       });
       return Promise.all(requests);
     });
+    test("GET:404 - responds with an error if the requested column does not exist", () => {
+      return request(app)
+        .get("/api/articles?sort_by=hey")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("This column does not exist");
+        });
+    });
+    test("GET:400 - responds with an error if the requested order is passed a non-valid string", () => {
+      return request(app)
+        .get("/api/articles?order=good")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid order");
+        });
+    });
   });
   describe("/api/articles/:article_id", () => {
     describe("GET", () => {
