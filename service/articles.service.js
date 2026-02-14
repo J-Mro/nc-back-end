@@ -23,6 +23,8 @@ exports.getAllArticles = (sort_by, order, topic) => {
         } else {
           throw new BadRequestError("Invalid order");
         }
+      } else {
+        throw new NotFoundError("This topic does not exist");
       }
     });
   } else {
