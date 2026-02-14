@@ -178,6 +178,14 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Invalid order");
         });
     });
+    test("GET:404 - responds with an error if the requested topic does not exist", () => {
+      return request(app)
+        .get("/api/articles?topic=iDontExist")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("This topic does not exist");
+        });
+    });
   });
   describe("/api/articles/:article_id", () => {
     describe("GET", () => {
