@@ -402,6 +402,15 @@ describe("/api/articles", () => {
             expect(typeof article.comment_count).toBe("number");
           });
       });
+      test("GET:200 - responds with the correct article column data types of a given id, with a comment_count column", () => {
+        return request(app)
+          .get("/api/articles/2")
+          .expect(200)
+          .then(({ body }) => {
+            const article = body;
+            expect(article.comment_count).toBe(0);
+          });
+      });
       describe("Error Handling", () => {
         test("GET:404 - responds with an error message 'Article ID not found' when the url includes an article_id that does not exist", () => {
           return request(app)
