@@ -68,6 +68,7 @@ describe("/api/articles", () => {
             expect(typeof article.created_at).toBe("string");
             expect(typeof article.votes).toBe("number");
             expect(typeof article.article_img_url).toBe("string");
+            expect(typeof article.comment_count).toBe("number");
           }
         });
     });
@@ -84,6 +85,7 @@ describe("/api/articles", () => {
             expect(article.created_at).toBeString();
             expect(article.votes).toBeNumber();
             expect(article.article_img_url).toBeString();
+            expect(article.comment_count).toBeNumber();
           }
         });
     });
@@ -134,6 +136,7 @@ describe("/api/articles", () => {
             expect(article.created_at).toBeString();
             expect(article.votes).toBeNumber();
             expect(article.article_img_url).toBeString();
+            expect(article.comment_count).toBeNumber();
           }
         });
     });
@@ -162,7 +165,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "2",
+              comment_count: 2,
             },
             {
               author: "icellusedkars",
@@ -173,7 +176,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "1",
+              comment_count: 1,
             },
             {
               author: "icellusedkars",
@@ -184,7 +187,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "butter_bridge",
@@ -195,7 +198,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "butter_bridge",
@@ -206,7 +209,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "rogersop",
@@ -217,7 +220,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "2",
+              comment_count: 2,
             },
             {
               author: "butter_bridge",
@@ -228,7 +231,7 @@ describe("/api/articles", () => {
               votes: 100,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "11",
+              comment_count: 11,
             },
             {
               author: "butter_bridge",
@@ -239,7 +242,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "2",
+              comment_count: 2,
             },
             {
               author: "rogersop",
@@ -250,7 +253,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "rogersop",
@@ -261,7 +264,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "icellusedkars",
@@ -272,7 +275,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "icellusedkars",
@@ -283,7 +286,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
             {
               author: "icellusedkars",
@@ -294,7 +297,7 @@ describe("/api/articles", () => {
               votes: 0,
               article_img_url:
                 "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
-              comment_count: "0",
+              comment_count: 0,
             },
           ];
           expect(body).toEqual(expected);
