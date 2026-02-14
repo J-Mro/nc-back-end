@@ -300,6 +300,17 @@ describe("/api/articles", () => {
           expect(body).toEqual(expected);
         });
     });
+    test("GET:200 - responds with an array of articles sorted by a given column, in a given order, filtered by a given topic", () => {
+      return request(app)
+        .get("/api/articles?sort_by=votes&order=asc&topic=mitch")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeSortedBy("votes");
+          for (const article of body) {
+            expect(article.topic).toBe("mitch");
+          }
+        });
+    });
   });
   describe("Invalid Methods", () => {
     test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
