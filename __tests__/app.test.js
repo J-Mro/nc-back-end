@@ -122,6 +122,32 @@ describe("/api/articles", () => {
           expect(body).toBeSortedBy("votes"); // default order is ascending
         });
     });
+    test("GET:200 - responds with an array of articles with the correct data types when passed a valid topic in the query", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({ body }) => {
+          for (const article of body) {
+            expect(article.article_id).toBeNumber();
+            expect(article.title).toBeString();
+            expect(article.topic).toBeString();
+            expect(article.author).toBeString();
+            expect(article.created_at).toBeString();
+            expect(article.votes).toBeNumber();
+            expect(article.article_img_url).toBeString();
+          }
+        });
+    });
+    test("GET:200 - responds with an array of articles filtered by a given topic when passed a valid topic in the query", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({ body }) => {
+          for (const article of body) {
+            expect(article.topic).toBe("mitch");
+          }
+        });
+    });
   });
   describe("Invalid Methods", () => {
     test("INVALID-METHOD: 405 - responds with an error message when passed a valid path with an undefined method", () => {
