@@ -386,6 +386,22 @@ describe("/api/articles", () => {
             expect(typeof article.article_img_url).toBe("string");
           });
       });
+      test("GET:200 - responds with the correct article column data types of a given id, with a comment_count column", () => {
+        return request(app)
+          .get("/api/articles/2")
+          .expect(200)
+          .then(({ body }) => {
+            const article = body;
+            expect(article.article_id).toBe(2);
+            expect(typeof article.author).toBe("string");
+            expect(typeof article.body).toBe("string");
+            expect(typeof article.topic).toBe("string");
+            expect(typeof article.created_at).toBe("string");
+            expect(typeof article.votes).toBe("number");
+            expect(typeof article.article_img_url).toBe("string");
+            expect(typeof article.comment_count).toBe("number");
+          });
+      });
       describe("Error Handling", () => {
         test("GET:404 - responds with an error message 'Article ID not found' when the url includes an article_id that does not exist", () => {
           return request(app)
