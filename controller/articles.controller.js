@@ -6,8 +6,8 @@ const {
   patchArticleById: patchArticleByIdService,
 } = require("../service/articles.service");
 exports.getAllArticles = (req, res, next) => {
-  const { sort_by = "created_at", order = "desc" } = req.query;
-  getAllArticlesService(sort_by, order)
+  const { sort_by = "created_at", order = "desc", topic } = req.query;
+  getAllArticlesService(sort_by, order, topic)
     .then((articles) => {
       res.status(200).send(articles);
     })
