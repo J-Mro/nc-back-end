@@ -46,7 +46,6 @@ exports.fetchArticleById = (article_id) => {
       return rows[0];
     });
 };
-// `SELECT articles.*, FROM articles WHERE article_id = $1`;
 exports.fetchCommentsByArticleId = (article_id) => {
   return db
     .query(
