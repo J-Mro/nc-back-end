@@ -7,7 +7,6 @@ const request = require("supertest");
 beforeEach(() => {
   return seed(data);
 });
-//before test, this will seed data everytime so we have fresh data everytime
 
 afterAll(() => {
   return db.end();
