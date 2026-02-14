@@ -6,19 +6,33 @@ const {
   checkUserExists,
   storeCommentFromUserName,
   updateVotesByArticleId,
-  checkColumnExists,
 } = require("../models/articles.model");
+const { checkTopicExists } = require("../models/topics.model");
 const NotFoundError = require("../errors/NotFoundError");
 const BadRequestError = require("../errors/BadRequestError");
-exports.getAllArticles = (sort_by, order) => {
+exports.getAllArticles = (sort_by, order, topic) => {
   const ascCheck = /^asc$/i;
   const descCheck = /^desc$/i;
-  if (ascCheck.test(order) || descCheck.test(order)) {
-    return fetchAllArticles(sort_by, order).catch((err) => {
-      throw new NotFoundError("This column does not exist");
+  if (topic !== undefined) {
+    return checkTopicExists(topic).then((result) => {
+      if (result === true) {
+        if (ascCheck.test(order) || descCheck.test(order)) {
+          return fetchAllArticles(sort_by, order, topic).catch((err) => {
+            throw new NotFoundError("This column does not exist");
+          });
+        } else {
+          throw new BadRequestError("Invalid order");
+        }
+      }
     });
   } else {
-    throw new BadRequestError("Invalid order");
+    if (ascCheck.test(order) || descCheck.test(order)) {
+      return fetchAllArticles(sort_by, order, topic).catch((err) => {
+        throw new NotFoundError("This column does not exist");
+      });
+    } else {
+      throw new BadRequestError("Invalid order");
+    }
   }
 };
 exports.getArticleById = (article_id) => {
