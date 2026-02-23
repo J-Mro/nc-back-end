@@ -8,7 +8,7 @@ const commentsRouter = require("./routes/comments.router");
 const NotFoundError = require("./errors/NotFoundError");
 const BadRequestError = require("./errors/BadRequestError");
 
-app.use(cors());
+// app.use(cors());
 
 app.use(express.json());
 
