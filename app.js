@@ -1,6 +1,5 @@
 const cors = require("cors");
 const express = require("express");
-const app = express();
 const topicsRouter = require("./routes/topics.routes");
 const articlesRouter = require("./routes/articles.router");
 const usersRouter = require("./routes/users.router");
@@ -8,7 +7,8 @@ const commentsRouter = require("./routes/comments.router");
 const NotFoundError = require("./errors/NotFoundError");
 const BadRequestError = require("./errors/BadRequestError");
 
-// app.use(cors());
+const app = express();
+app.use(cors());
 
 app.use(express.json());
 
