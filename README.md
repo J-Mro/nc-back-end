@@ -116,10 +116,10 @@ To configure your database, create 2 `.env` files in the root directory of your 
 - `.env.development`
 - `.env.test`
 
-These should each contain an environment variable `PG_DATABASE` that is set to your database name (`.env.test` should have your test database name), as shown here:
+These should each contain an environment variable `PGDATABASE` that has a value that matches the database names in `setup-dbs.sql` (`.env.test` should have your test database name), as shown here:
 
 ```
-PG_DATABASE = <your-database-name>
+PGDATABASE = <database-name>
 ```
 
 ## Hosting
